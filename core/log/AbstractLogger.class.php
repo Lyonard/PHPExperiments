@@ -146,6 +146,4 @@ abstract class AbstractLogger implements ILogger, \SplObserver{
             $this->log(LogLevel::INFO, "Event: ".$event);
         }
     }
-
-
 } 

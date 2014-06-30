@@ -26,4 +26,3 @@ $dummy->notify('A');
 
 //trigger_error("kokodd", E_USER_NOTICE);//E_USER_ERROR);
 ?>
-
