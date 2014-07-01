@@ -6,7 +6,7 @@
  * Time: 21.22
  */
 
-namespace core\log;
+namespace core\logic\log;
 
 
 use core\Config;

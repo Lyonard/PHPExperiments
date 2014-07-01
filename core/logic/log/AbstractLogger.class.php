@@ -6,7 +6,7 @@
  * Time: 21.10
  */
 
-namespace core\log;
+namespace core\logic\log;
 
 
 use SplSubject;

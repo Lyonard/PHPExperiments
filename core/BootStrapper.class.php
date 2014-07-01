@@ -51,7 +51,7 @@ class BootStrapper {
     }
 
     private function enableLoggers(){
-        $ns = "\\core\\log\\";
+        $ns = "\\core\\logic\\log\\";
 
         foreach (Config::$activeLogs as $log => $active){
 

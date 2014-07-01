@@ -6,7 +6,7 @@
  * Time: 21.09
  */
 
-namespace core\log;
+namespace core\logic\log;
 
 
 class LogLevel {

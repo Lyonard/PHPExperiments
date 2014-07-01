@@ -6,7 +6,7 @@
  * Time: 20.48
  */
 
-namespace core\log;
+namespace core\logic\log;
 
 
 interface ILogger {

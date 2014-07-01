@@ -9,7 +9,10 @@
 namespace core\mvc;
 
 
-class Controller {
+abstract class Controller {
     private $request;
     private $model;
+    private $view;
+
+
 } 
