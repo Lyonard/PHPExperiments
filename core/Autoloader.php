@@ -9,7 +9,10 @@
 namespace core;
 
 class Autoloader {
+    private static $defaultClassExtension;
+
     public function __construct(){
+        self::$defaultClassExtension = ".php";
         set_include_path(dirname(__FILE__));
         spl_autoload_register(array($this, 'importClass'));
     }
@@ -20,16 +23,9 @@ class Autoloader {
 
         $className          = ltrim($className, $namespaceSeparator);
         $fileName           = '';
-        $namespace          = '';
-        if ($lastNamespacePos = strrpos($className, $namespaceSeparator)) {
-            $namespace = substr($className, 0, $lastNamespacePos);
 
-            $className = substr($className, $lastNamespacePos + 1);
+        $fileName .= str_replace($namespaceSeparator, DIRECTORY_SEPARATOR, $className);
 
-            $fileName  = str_replace($namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
-        }
-        $fileName .= str_replace($namespaceSeparator, DIRECTORY_SEPARATOR, $className) . $classExtension;
-
-        include $fileName;
+        include $fileName.$classExtension;
     }
 }

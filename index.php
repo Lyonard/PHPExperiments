@@ -3,13 +3,25 @@
 include implode(DIRECTORY_SEPARATOR, array(
             dirname(__FILE__),
             "core",
-            "BootStrapper.class.php"
+            "BootStrapper.php"
         )
     );
+
+
+
 use core\BootStrapper as BootStrapper;
 new BootStrapper();
 
-var_dump($_SERVER['REQUEST_URI']);
+//var_dump($_SERVER['REQUEST_URI']);
+/*
+$logger = \Logger::getLogger("main");
+
+$logger->trace("My first message.");   // Not logged because TRACE < WARN
+$logger->debug("My second message.");  // Not logged because DEBUG < WARN
+$logger->info("My third message.");    // Not logged because INFO < WARN
+$logger->warn("My fourth message.");   // Logged because WARN >= WARN
+$logger->error("My fifth message.");   // Logged because ERROR >= WARN
+$logger->fatal("My sixth message.");   // Logged because FATAL >= WARN*/
 
 /*$logger = \core\Config::$loggers['File'];
 $logger2 = new \core\log\FileLogger("core/log/log2.txt");

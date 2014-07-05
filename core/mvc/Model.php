@@ -24,13 +24,9 @@ abstract class Model implements \SplSubject{
      * </p>
      * @return void
      */
-    public function attach(SplObserver $observer, $event = null)
+    public function attach(SplObserver $observer)
     {
-        if($event == null) $event = 'all';
-
-        if(in_array($event, self::$events)){
-            $this->observers[$event][] = $observer;
-        }
+        $this->observers[] = $observer;
     }
 
     /**
@@ -42,15 +38,11 @@ abstract class Model implements \SplSubject{
      * </p>
      * @return void
      */
-    public function detach(SplObserver $observer, $event = null)
+    public function detach(SplObserver $observer)
     {
-        if($event == null) $event = 'all';
-
-        if(in_array($event, self::$events)){
-            $key = array_search($observer,$this->observers, true);
-            if($key){
-                unset($this->observers[$key]);
-            }
+        $key = array_search($observer,$this->observers, true);
+        if($key){
+            unset($this->observers[$key]);
         }
     }
 
@@ -60,14 +52,13 @@ abstract class Model implements \SplSubject{
      * @link http://php.net/manual/en/splsubject.notify.php
      * @return void
      */
-    public function notify($event = null)
+    public function notify()
     {
-        if($event == null) $event = 'all';
-
-        if(in_array($event, self::$events)){
-            foreach($this->observers[$event] as $value) {
-                $value->update($this, $event);
-            }
+        /**
+         * @var $value SplObserver
+         */
+        foreach($this->observers as $value) {
+            $value->update($this);
         }
     }
 } 

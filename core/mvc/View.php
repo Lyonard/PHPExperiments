@@ -25,4 +25,5 @@ abstract class View implements \SplObserver{
      * @return void
      */
     public abstract function update(SplSubject $subject);
+
 } 

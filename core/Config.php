@@ -52,17 +52,23 @@ class Config {
     /**
      * @var String
      */
+    public static $loggerCompleteClassName;
+    /**
+     * @var String
+     */
     public static $defaultLogFilePath;
+
+    public static $loggerConfigFilePath;
+
+    /**
+     * @var string
+     */
+    public static $ajaxRequestActionName;
 
     /**
      * @var array
      */
-    public static $activeLogs;
-
-    /**
-     * @var array AbstractLogger
-     */
-    public static $loggers;
+    public static $userFolders;
 
     public static function init(){
         $config = parse_ini_file("res".DIRECTORY_SEPARATOR."config.ini");
@@ -86,21 +92,28 @@ class Config {
         /**
          * Exception Handler
          */
-        self::$exceptionHandlerCompleteClassName = $config['exceptionHandlerNameSpace'];
+        self::$exceptionHandlerCompleteClassName    = $config['exceptionHandlerNameSpace'];
 
         /**
-         * Logging to file
+         * Logger by log4php
          */
-        self::$defaultLogFilePath               = $config['default_file_path'];
+        self::$loggerCompleteClassName              = $config['loggerNameSpace'];
+        self::$defaultLogFilePath                   = $config['default_file_path'];
+        self::$loggerConfigFilePath                 = $config['loggerConfig'];
 
         /**
-         * Loggers
+         * Ajax request in URL
          */
-        self::$activeLogs = array(
-            "File"          =>  $config['file_log'],
-            "Mysql"         =>  $config['mysql_log']
+        self::$ajaxRequestActionName                = $config['ajax_request_action_name'];
+
+        /**
+         * User folders
+         */
+        self::$userFolders = array(
+            'model'         =>  $config['user_models_folder'],
+            'view'          =>  $config['user_views_folder'],
+            'controller'    =>  $config['user_controllers_folder'],
+            'root'          =>  $config['root_folder']
         );
-
-        self::$loggers = array();
     }
 }
