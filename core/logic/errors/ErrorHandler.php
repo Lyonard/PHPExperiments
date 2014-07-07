@@ -20,7 +20,7 @@ class ErrorHandler {
         $return = false;
         switch($errno){
             case E_ERROR            :
-            case E_USER_ERROR       : self:: handleFatalError($errno, $errstr, $errfile, $errline);
+            case E_USER_ERROR       :   self:: handleFatalError($errno, $errstr, $errfile, $errline);
 
             case E_WARNING          :
             case E_NOTICE           :

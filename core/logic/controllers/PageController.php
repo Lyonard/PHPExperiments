@@ -16,11 +16,22 @@ class PageController extends FrontController{
     }
 
     public function doAction(){
-        $firstField = $this->getFirstField($this->getRequest());
+        $firstField = $this->getRequestHead($this->getRequest());
         if( $this->routeExists( $firstField ) ){
-            echo __CLASS__." ".$firstField."Controller exists.";
+            $newRequest = $this->getRequestTail($this->getRequest());
+
+            $nextControllerName = $this->getNextControllerName($firstField);
+
+            /**
+             * @var $nextController \core\mvc\Controller
+             */
+            $nextController = new $nextControllerName($newRequest);
+
+            $nextController->doAction();
         }
-        else
-            echo __CLASS__." ".$firstField."Controller does not exist.";
+        else{
+            //echo "PIPPA";
+            $this->goErrorPage(404);
+        }
     }
 } 

@@ -8,10 +8,6 @@
 
 namespace core;
 
-use core\log\AbstractLogger;
-
-use core\log\FileLogger;
-
 require "Config.php";
 
 class BootStrapper {
@@ -23,6 +19,9 @@ class BootStrapper {
 
         //this method has to be called before instantiating the autoloader because it's not namespaced
         $this->enableLoggers();
+
+        //this method has to be called before instantiating the autoloader because it's not namespaced
+        $this->initTwig();
 
         $this->initAutoloader();
 
@@ -53,6 +52,10 @@ class BootStrapper {
         //ini_set("display_errors", Config::$displayErrors);
     }
 
+    private function initTwig(){
+        require_once Config::$twigAutoloaderCompleteClassName.".php";
+        \Twig_Autoloader::register();
+    }
 
     private function enableLoggers(){
         include implode(DIRECTORY_SEPARATOR, array(
@@ -78,6 +81,8 @@ class BootStrapper {
 
         $base_path  = explode("/", Config::$userFolders['root']);
         $request = implode("/", array_slice($request, count($base_path) ) );
+
+        if(empty($request)) $request = "index";
 
         $controller = new \core\logic\controllers\FrontController($request);
 

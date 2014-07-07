@@ -36,6 +36,11 @@ class Config {
     public static $autoloaderCompleteClassName;
 
     /**
+     * @var string
+     */
+    public static $twigAutoloaderCompleteClassName;
+
+    /**
      * @var String
      */
     public static $errorHandler;
@@ -81,8 +86,9 @@ class Config {
         /**
          * Autoloader
          */
-        self::$autoloader                   = $config['autoloaderClass'];
-        self::$autoloaderCompleteClassName  = $config['autoloaderNameSpace'];
+        self::$autoloader                       = $config['autoloaderClass'];
+        self::$autoloaderCompleteClassName      = $config['autoloaderNameSpace'];
+        self::$twigAutoloaderCompleteClassName  = $config['twigLoaderNameSpace'];
 
         /**
          * Error Handler
@@ -113,7 +119,8 @@ class Config {
             'model'         =>  $config['user_models_folder'],
             'view'          =>  $config['user_views_folder'],
             'controller'    =>  $config['user_controllers_folder'],
-            'root'          =>  $config['root_folder']
+            'root'          =>  $config['root_folder'],
+            'templates'     =>  $config['user_templates_folder']
         );
     }
 }

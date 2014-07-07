@@ -10,12 +10,11 @@ namespace core\logic\controllers;
 
 use core\Config;
 use core\mvc\Controller;
+use views\ErrorPageView;
 
 class FrontController extends Controller{
 
     public function __construct($request){
-        if ($request == null) $request = "defaultPage";
-
         $this->setRequest($request);
     }
 
@@ -33,6 +32,10 @@ class FrontController extends Controller{
         $nextController->doAction();
     }
 
+    /**
+     * Checks if the current request is an Ajax request
+     * @return bool True if the current request is an Ajax request, false otherwise
+     */
     private function checkAjax(){
         return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
             strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
@@ -63,28 +66,32 @@ class FrontController extends Controller{
     }
 
     /**
-     * Gets a folder path and pops first the field starting from the left.<br/>
-     * <u>Notice</u>: $route is passed by reference and is modified as a side effect.
-     * @param $route string The folder path
+     * Gets a folder path and returns the first field starting from the left.<br/>
+     * @param $request string The folder path
      * @return string The first field of the path
      */
-    protected function popFirstField(&$route){
-        $routeArr = explode("/",$route);
+    protected function getRequestHead($request){
+        $routeArr = explode("/",$request);
         $firstField = array_shift($routeArr);
-        $route = implode("/",$routeArr);
+
         return $firstField;
     }
 
     /**
-     * Gets a folder path and pops first the field starting from the left.<br/>
-     * @param $route string The folder path
-     * @return string The first field of the path
+     * Gets a folder path, trims the first field and returns the remaining path.<br/>
+     * @param $request string The folder path
+     * @return string The path trimmed by its first field
      */
-    protected function getFirstField($route){
-        $routeArr = explode("/",$route);
-        $firstField = array_shift($routeArr);
-        $route = implode("/",$routeArr);
-        return $firstField;
+    protected function getRequestTail($request){
+        $routeArr = explode("/",$request);
+        array_shift($routeArr);
+
+        return implode("/", $routeArr);
     }
 
+    protected function goErrorPage($errorCode){
+        $errorView = new ErrorPageView();
+        $errorView->setErrorCode($errorCode);
+        $errorView->render();
+    }
 } 

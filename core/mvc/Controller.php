@@ -47,6 +47,37 @@ abstract class Controller {
         return $this->request_ENV;
     }
 
+    /**
+     * @param Model $model
+     */
+    public function setModel($model)
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    /**
+     * @param View $view
+     */
+    public function setView($view)
+    {
+        $this->view = $view;
+    }
+
+    /**
+     * @return View
+     */
+    public function getView()
+    {
+        return $this->view;
+    }
 
     public abstract function doAction();
 } 

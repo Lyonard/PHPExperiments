@@ -12,7 +12,7 @@ namespace core\logic\errors;
 class ExceptionHandler {
 
     public function __construct(){
-        echo "<pre>";
+        //echo "<pre>";
         set_exception_handler( array($this, 'handleException') );
     }
 
