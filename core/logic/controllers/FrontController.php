@@ -8,7 +8,7 @@
 
 namespace core\logic\controllers;
 
-use core\Config;
+use core\Registry;
 use core\mvc\Controller;
 use views\ErrorPageView;
 
@@ -47,8 +47,10 @@ class FrontController extends Controller{
      * @return bool True if class exists, false otherwise
      */
     protected function routeExists($route){
+        $registry = Registry::getInstance();
+
         try{
-            return class_exists(Config::$userFolders['controller'].DIRECTORY_SEPARATOR.$route."Controller");
+            return class_exists($registry['config']['USER_FOLDERS']['controllers'].DIRECTORY_SEPARATOR.$route."Controller");
         }
         catch(\ErrorException $e){
             return false;
@@ -61,7 +63,8 @@ class FrontController extends Controller{
      * @return string
      */
     protected function getNextControllerName($route){
-        $routeClass = Config::$userFolders['controller'].DIRECTORY_SEPARATOR.$route."Controller";
+        $registry = Registry::getInstance();
+        $routeClass = $registry['config']['USER_FOLDERS']['controllers'].DIRECTORY_SEPARATOR.$route."Controller";
         return $routeClass;
     }
 

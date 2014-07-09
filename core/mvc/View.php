@@ -8,6 +8,7 @@
 
 namespace core\mvc;
 
+use core\Registry;
 use SplSubject;
 
 abstract class View implements \SplObserver{
@@ -47,7 +48,8 @@ abstract class View implements \SplObserver{
     }
 
     private function loadTwig(){
-        $loader = new \Twig_Loader_Filesystem(\core\Config::$userFolders['templates']);
+        $registry = Registry::getInstance();
+        $loader = new \Twig_Loader_Filesystem($registry['config']['USER_FOLDERS']['templates']);
 
         $this->twig = new \Twig_Environment($loader);
     }

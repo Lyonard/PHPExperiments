@@ -17,6 +17,7 @@ class PageController extends FrontController{
 
     public function doAction(){
         $firstField = $this->getRequestHead($this->getRequest());
+
         if( $this->routeExists( $firstField ) ){
             $newRequest = $this->getRequestTail($this->getRequest());
 
@@ -30,7 +31,6 @@ class PageController extends FrontController{
             $nextController->doAction();
         }
         else{
-            //echo "PIPPA";
             $this->goErrorPage(404);
         }
     }

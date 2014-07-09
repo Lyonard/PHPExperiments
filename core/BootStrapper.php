@@ -8,12 +8,21 @@
 
 namespace core;
 
-require "Config.php";
+require "Registry.php";
 
 class BootStrapper {
+
+    private $registry;
+
     public function __construct(){
 
-        Config::init();
+        $this->registry = Registry::getInstance();
+
+        $this->init();
+    }
+
+    private function init(){
+        $this->registry->init();
 
         $this->displayErrors();
 
@@ -33,18 +42,19 @@ class BootStrapper {
     }
 
     private function initAutoloader(){
-        require Config::$autoloader.Config::$classExtension;
-        $autoloaderClass = Config::$autoloaderCompleteClassName;
+
+        require $this->registry['config']['AUTOLOADER']['className'].".php";
+        $autoloaderClass = $this->registry['config']['AUTOLOADER']['nameSpace'];
         new $autoloaderClass();
     }
 
     private function initErrorHandler(){
-        $errorHandlerClass = Config::$errorHandlerCompleteClassName;
+        $errorHandlerClass = $this->registry['config']['errorHandlerNameSpace'];
         new $errorHandlerClass();
     }
 
     private function initExceptionHandler(){
-        $exceptionHandlerClass = Config::$exceptionHandlerCompleteClassName;
+        $exceptionHandlerClass = $this->registry['config']['exceptionHandlerNameSpace'];
         new $exceptionHandlerClass();
     }
 
@@ -53,7 +63,7 @@ class BootStrapper {
     }
 
     private function initTwig(){
-        require_once Config::$twigAutoloaderCompleteClassName.".php";
+        require_once $this->registry['config']['AUTOLOADER']['twigNameSpace'].".php";
         \Twig_Autoloader::register();
     }
 
@@ -69,7 +79,7 @@ class BootStrapper {
                 DIRECTORY_SEPARATOR,
                 array(
                     dirname(__FILE__),
-                    Config::$loggerConfigFilePath
+                    $this->registry['config']['LOG']['config']
                 )
             )
         );
@@ -79,7 +89,7 @@ class BootStrapper {
         $request    = trim($_SERVER['REQUEST_URI'], "/");
         $request    = explode("/", $request);
 
-        $base_path  = explode("/", Config::$userFolders['root']);
+        $base_path  = explode("/", $this->registry['config']['USER_FOLDERS']['root']);
         $request = implode("/", array_slice($request, count($base_path) ) );
 
         if(empty($request)) $request = "index";
