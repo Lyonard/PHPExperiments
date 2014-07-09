@@ -17,7 +17,7 @@ class Autoloader {
 
     private function importClass($className){
         $registry = Registry::getInstance();
-        
+
         $namespaceSeparator = $registry['config']['INCLUDE_CONFIG']['namespaceSeparator'];
 
         $className          = ltrim($className, $namespaceSeparator);

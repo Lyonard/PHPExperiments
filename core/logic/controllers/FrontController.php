@@ -19,17 +19,27 @@ class FrontController extends Controller{
     }
 
     public function doAction(){
-
         $nextController = null;
+        $registry = Registry::getInstance();
 
-        if($this->checkAjax()){
-            $nextController = new AjaxController( $this->getRequest() );
+        try{
+            if($this->checkAjax()){
+                $nextController = new AjaxController( $this->getRequest() );
+
+                $registry['ENV'] = array_merge($registry['ENV'], array('ajax'=>true));
+            }
+            else{
+                $nextController = new PageController( $this->getRequest() );
+                $registry['ENV'] = array_merge($registry['ENV'], array('ajax'=>false, 'responseType' => 'html'));
+            }
+
+            $nextController->doAction();
         }
-        else{
-            $nextController = new PageController( $this->getRequest() );
+        catch(\Exception $e){
+
+            $this->goErrorPage(500);
         }
 
-        $nextController->doAction();
     }
 
     /**

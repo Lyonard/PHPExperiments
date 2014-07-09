@@ -8,6 +8,7 @@
 
 namespace core\logic\controllers;
 
+use core\Registry;
 
 class AjaxController extends FrontController{
 
@@ -16,6 +17,11 @@ class AjaxController extends FrontController{
     }
 
     public function doAction(){
+        $registry = Registry::getInstance();
+        $env = $registry['ENV'];
+        $env['ajax'] = false;
+        $registry['ENV'] = $env;
+
         $firstField = $this->getRequestHead($this->getRequest());
         if( $this->routeExists( $firstField ) ){
             $newRequest = $this->getRequestTail($this->getRequest());

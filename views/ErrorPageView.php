@@ -8,15 +8,17 @@
 
 namespace views;
 
+use core\logic\response\HtmlResponse;
+use core\logic\response\ResponseFactory;
 use core\mvc\View;
+use core\Registry;
 use SplSubject;
 
 class ErrorPageView extends View{
 
     private $errorCode;
-    public function __construct(){
-        //TODO: dependency injection del model?
-    }
+
+    public function __construct(){ }
 
     /**
      * @param $errCode int
@@ -34,14 +36,20 @@ class ErrorPageView extends View{
      * </p>
      * @return void
      */
-    public function update(SplSubject $subject)
-    {
-        // TODO: Implement update() method.
-    }
+    public function update(SplSubject $subject){}
 
     public function render()
     {
-        echo $this->getTwig()->render($this->errorCode.".html");
+        $registry = Registry::getInstance();
+
+        $responseFactory = ResponseFactory::getInstance();
+
+        $responseObj = $responseFactory->getResponseObject( $registry['ENV']['responseType'] );
+
+        if($responseObj instanceof HtmlResponse)
+            $responseObj -> setTemplateName($this->errorCode.".html");
+
+        echo $responseObj->getResponse();
     }
 
 

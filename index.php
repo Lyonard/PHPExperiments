@@ -36,5 +36,17 @@ $dummy->notify('A');*/
 
 //trigger_error("log(x) for x <= 0 is undefined, you used: scale = 1",E_USER_NOTICE);
 
-//trigger_error("kokodd", E_USER_NOTICE);//E_USER_ERROR);
+////trigger_error("kokodd", E_USER_NOTICE);//E_USER_ERROR);
+//$last = file_get_contents("last");
+//echo "PRIMA: $last<br/><br/>";
+//$b = $last;
+//while($b == $last){
+//    $a = rand(0,100);
+//    if ($a <= 33)        $b = "CARTA";
+//    else if ($a <= 66)   $b = "FORBICI";
+//    else $b = "SASSO";
+//}
+//
+//file_put_contents("last",$b);
+//echo "PLAYER 1". $b."       -       ";
 ?>

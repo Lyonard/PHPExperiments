@@ -8,6 +8,7 @@
 
 namespace core\logic\controllers;
 
+use core\Registry;
 
 class PageController extends FrontController{
 
@@ -16,6 +17,11 @@ class PageController extends FrontController{
     }
 
     public function doAction(){
+        $registry = Registry::getInstance();
+        $env = $registry['ENV'];
+        $env['ajax'] = false;
+        $registry['ENV'] = $env;
+
         $firstField = $this->getRequestHead($this->getRequest());
 
         if( $this->routeExists( $firstField ) ){
@@ -27,6 +33,7 @@ class PageController extends FrontController{
              * @var $nextController \core\mvc\Controller
              */
             $nextController = new $nextControllerName($newRequest);
+
 
             $nextController->doAction();
         }

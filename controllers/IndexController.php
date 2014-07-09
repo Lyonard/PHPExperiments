@@ -24,6 +24,7 @@ class IndexController extends Controller{
     public function doAction()
     {
         $this->getModel()->setDummyName( "Roberto" );
+
         $this->getView()->render();
     }
 

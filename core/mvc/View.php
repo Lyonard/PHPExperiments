@@ -13,17 +13,14 @@ use SplSubject;
 
 abstract class View implements \SplObserver{
 
-    private $template;
-    private $templateVariables;
-    private $twig;
-    /**
-     * @var boolean
-     */
-    private $ajax;
     /**
      * @var string
      */
-    private $responseType;
+    private $templateName;
+    /**
+     * @var array
+     */
+    private $templateVariables;
 
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
@@ -37,22 +34,6 @@ abstract class View implements \SplObserver{
     public abstract function update(SplSubject $subject);
     public abstract function render();
 
-    /**
-     * @return \Twig_Environment
-     */
-    protected function getTwig(){
-        if($this->twig == null)
-            $this->loadTwig();
-
-        return $this->twig;
-    }
-
-    private function loadTwig(){
-        $registry = Registry::getInstance();
-        $loader = new \Twig_Loader_Filesystem($registry['config']['USER_FOLDERS']['templates']);
-
-        $this->twig = new \Twig_Environment($loader);
-    }
 
     /**
      * @param array $templateVariables
@@ -71,34 +52,18 @@ abstract class View implements \SplObserver{
     }
 
     /**
-     * @param boolean $ajax
+     * @param string $templateName
      */
-    public function setAjax($ajax)
+    public function setTemplateName($templateName)
     {
-        $this->ajax = $ajax;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getAjax()
-    {
-        return $this->ajax;
-    }
-
-    /**
-     * @param string $responseType
-     */
-    public function setResponseType($responseType)
-    {
-        $this->responseType = $responseType;
+        $this->templateName = $templateName;
     }
 
     /**
      * @return string
      */
-    public function getResponseType()
+    public function getTemplateName()
     {
-        return $this->responseType;
+        return $this->templateName;
     }
 } 

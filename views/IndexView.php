@@ -9,11 +9,18 @@
 namespace views;
 
 
+use core\logic\response\HtmlResponse;
+use core\logic\response\ResponseFactory;
 use core\mvc\View;
+use core\Registry;
 use models\IndexModel;
 use SplSubject;
 
 class IndexView extends View{
+
+    public function __construct(){
+        $this->setTemplateName("index.html");
+    }
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
      * Receive update from subject
@@ -34,17 +41,16 @@ class IndexView extends View{
 
     public function render()
     {
-        if($this->getAjax()){
+        $registry = Registry::getInstance();
 
-        }
-        else{
-            echo $this->getTwig()->render(
-                "index.html", $this->getTemplateVariables()
-            );
+        $responseFactory = ResponseFactory::getInstance();
+
+        $responseObj = $responseFactory->getResponseObject( $registry['ENV']['responseType'] );
+
+        if($responseObj instanceof HtmlResponse){
+            $responseObj->setTemplateName( $this->getTemplateName() );
         }
 
+        echo $responseObj->getResponse();
     }
-
-
-
-} 
+}

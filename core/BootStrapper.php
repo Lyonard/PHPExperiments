@@ -42,8 +42,8 @@ class BootStrapper {
     }
 
     private function initAutoloader(){
-
         require $this->registry['config']['AUTOLOADER']['className'].".php";
+
         $autoloaderClass = $this->registry['config']['AUTOLOADER']['nameSpace'];
         new $autoloaderClass();
     }
