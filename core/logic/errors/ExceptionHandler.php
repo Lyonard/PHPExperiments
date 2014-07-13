@@ -17,11 +17,11 @@ class ExceptionHandler {
     }
 
     public static function handleException($e){
-        $message = "\nUncaught exception: " . $e->getMessage(). "\n".
+        $message = "<pre>\nUncaught exception: " . $e->getMessage(). "\n".
                     $e->getTraceAsString();
 
         echo $message;
-        echo "\n\nCODE : ".$e->getCode()."\n";
+        echo "\n\nCODE : ".$e->getCode()."\n</pre>";
 
         if($e->getCode() == E_ERROR ||
             $e->getCode() == E_USER_ERROR ) exit (1);

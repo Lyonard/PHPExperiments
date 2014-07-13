@@ -9,20 +9,16 @@
 namespace core;
 
 require "Registry.php";
+require "ArrayClass.php";
 
 class BootStrapper {
 
-    private $registry;
-
     public function __construct(){
-
-        $this->registry = Registry::getInstance();
-
         $this->init();
     }
 
     private function init(){
-        $this->registry->init();
+        Registry::init();
 
         $this->displayErrors();
 
@@ -42,19 +38,19 @@ class BootStrapper {
     }
 
     private function initAutoloader(){
-        require $this->registry['config']['AUTOLOADER']['className'].".php";
+        require Registry::get('config')->get('AUTOLOADER')->get('className').".php";
 
-        $autoloaderClass = $this->registry['config']['AUTOLOADER']['nameSpace'];
+        $autoloaderClass = Registry::get('config')->get('AUTOLOADER')->get('nameSpace');
         new $autoloaderClass();
     }
 
     private function initErrorHandler(){
-        $errorHandlerClass = $this->registry['config']['errorHandlerNameSpace'];
+        $errorHandlerClass = Registry::get('config')->get('errorHandlerNameSpace');
         new $errorHandlerClass();
     }
 
     private function initExceptionHandler(){
-        $exceptionHandlerClass = $this->registry['config']['exceptionHandlerNameSpace'];
+        $exceptionHandlerClass = Registry::get('config')->get('exceptionHandlerNameSpace');
         new $exceptionHandlerClass();
     }
 
@@ -63,7 +59,7 @@ class BootStrapper {
     }
 
     private function initTwig(){
-        require_once $this->registry['config']['AUTOLOADER']['twigNameSpace'].".php";
+        require_once Registry::get('config')->get('AUTOLOADER')->get('twigNameSpace').".php";
         \Twig_Autoloader::register();
     }
 
@@ -79,7 +75,7 @@ class BootStrapper {
                 DIRECTORY_SEPARATOR,
                 array(
                     dirname(__FILE__),
-                    $this->registry['config']['LOG']['config']
+                    Registry::get('config')->get('LOG')->get('config')
                 )
             )
         );
@@ -89,7 +85,7 @@ class BootStrapper {
         $request    = trim($_SERVER['REQUEST_URI'], "/");
         $request    = explode("/", $request);
 
-        $base_path  = explode("/", $this->registry['config']['USER_FOLDERS']['root']);
+        $base_path  = explode("/", Registry::get('config')->get('USER_FOLDERS')->get('root'));
         $request = implode("/", array_slice($request, count($base_path) ) );
 
         if(empty($request)) $request = "index";

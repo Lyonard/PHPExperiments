@@ -40,11 +40,9 @@ class ErrorPageView extends View{
 
     public function render()
     {
-        $registry = Registry::getInstance();
-
         $responseFactory = ResponseFactory::getInstance();
 
-        $responseObj = $responseFactory->getResponseObject( $registry['ENV']['responseType'] );
+        $responseObj = $responseFactory->getResponseObject( Registry::get('ENV')->get('responseType') );
 
         if($responseObj instanceof HtmlResponse)
             $responseObj -> setTemplateName($this->errorCode.".html");

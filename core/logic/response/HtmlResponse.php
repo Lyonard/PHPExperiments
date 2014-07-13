@@ -24,7 +24,7 @@ class HtmlResponse implements IResponse{
     private $templateName;
 
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     private $twig;
 
@@ -43,8 +43,7 @@ class HtmlResponse implements IResponse{
     }
 
     private function loadTwig(){
-        $registry = Registry::getInstance();
-        $loader = new \Twig_Loader_Filesystem($registry['config']['USER_FOLDERS']['templates']);
+        $loader = new \Twig_Loader_Filesystem(Registry::get('config')->get('USER_FOLDERS')->get('templates'));
 
         $this->twig = new \Twig_Environment($loader);
     }

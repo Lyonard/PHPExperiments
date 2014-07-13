@@ -27,11 +27,9 @@ class ResponseFactory {
      * @return IResponse
      */
     public function getResponseObject($responseType){
-        $registry = Registry::getInstance();
+        $responseClassName = Registry::get('config')->get('responseNameSpace').$responseType."Response";
 
-        $responseClassName = $registry['config']['responseNameSpace'].$responseType."Response";
-
-        if(in_array($responseType, $registry['config']['allowed_responses'])){
+        if( in_array( $responseType, Registry::get('config')->get('allowed_responses')->toArray() ) ){
             return new $responseClassName();
         }
         else {

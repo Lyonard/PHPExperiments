@@ -12,6 +12,7 @@ include implode(DIRECTORY_SEPARATOR, array(
 use core\BootStrapper as BootStrapper;
 new BootStrapper();
 
+
 //var_dump($_SERVER['REQUEST_URI']);
 /*
 $logger = \Logger::getLogger("main");

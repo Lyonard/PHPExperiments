@@ -20,23 +20,38 @@ class FrontController extends Controller{
 
     public function doAction(){
         $nextController = null;
-        $registry = Registry::getInstance();
 
         try{
+            $env = Registry::get('ENV');
             if($this->checkAjax()){
-                $nextController = new AjaxController( $this->getRequest() );
-
-                $registry['ENV'] = array_merge($registry['ENV'], array('ajax'=>true));
+               $env ->set('ajax',true);
             }
             else{
-                $nextController = new PageController( $this->getRequest() );
-                $registry['ENV'] = array_merge($registry['ENV'], array('ajax'=>false, 'responseType' => 'html'));
+                $env->set( 'ajax', false );
+                $env->set( 'responseType', 'html' );
+            }
+            Registry::set('ENV', $env);
+
+            $firstField = $this->getRequestHead($this->getRequest());
+
+            if( $this->routeExists( $firstField ) ){
+
+                $newRequest = $this->getRequestTail($this->getRequest());
+
+                $nextControllerName = $this->getNextControllerName($firstField);
+
+                /**
+                 * @var $nextController \core\mvc\Controller
+                 */
+                $nextController = new $nextControllerName($newRequest);
+                $nextController->doAction();
+            }
+            else{
+                $this->goErrorPage(404);
             }
 
-            $nextController->doAction();
         }
         catch(\Exception $e){
-
             $this->goErrorPage(500);
         }
 
@@ -57,10 +72,8 @@ class FrontController extends Controller{
      * @return bool True if class exists, false otherwise
      */
     protected function routeExists($route){
-        $registry = Registry::getInstance();
-
         try{
-            return class_exists($registry['config']['USER_FOLDERS']['controllers'].DIRECTORY_SEPARATOR.$route."Controller");
+            return class_exists(Registry::get('config')->get('USER_FOLDERS')->get('controllers').DIRECTORY_SEPARATOR.$route."Controller");
         }
         catch(\ErrorException $e){
             return false;
@@ -73,8 +86,7 @@ class FrontController extends Controller{
      * @return string
      */
     protected function getNextControllerName($route){
-        $registry = Registry::getInstance();
-        $routeClass = $registry['config']['USER_FOLDERS']['controllers'].DIRECTORY_SEPARATOR.$route."Controller";
+        $routeClass = Registry::get('config')->get('USER_FOLDERS')->get('controllers').DIRECTORY_SEPARATOR.$route."Controller";
         return $routeClass;
     }
 
