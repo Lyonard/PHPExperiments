@@ -8,18 +8,14 @@
 
 namespace views;
 
-
-use core\logic\response\HtmlResponse;
-use core\logic\response\ResponseFactory;
 use core\mvc\View;
-use core\Registry;
 use models\IndexModel;
 use SplSubject;
 
 class IndexView extends View{
 
     public function __construct(){
-        $this->setTemplateName("index.html");
+        $this->setTemplateName("index");
     }
     /**
      * (PHP 5 &gt;= 5.1.0)<br/>
@@ -37,18 +33,5 @@ class IndexView extends View{
             $templateVars['dummyName'] = $subject->getDummyName();
             $this->setTemplateVariables($templateVars);
         }
-    }
-
-    public function render()
-    {
-        $responseFactory = ResponseFactory::getInstance();
-
-        $responseObj = $responseFactory->getResponseObject( Registry::get('ENV')->get('responseType') );
-
-        if($responseObj instanceof HtmlResponse){
-            $responseObj->setTemplateName( $this->getTemplateName() );
-        }
-
-        echo $responseObj->getResponse();
     }
 }

@@ -11,10 +11,13 @@ namespace models;
 use core\mvc\Model;
 
 class IndexModel extends Model{
+    /**
+     * @var string
+     */
     private $dummyName;
 
     /**
-     * @param mixed $dummyName
+     * @param string $dummyName
      */
     public function setDummyName($dummyName)
     {
@@ -23,7 +26,7 @@ class IndexModel extends Model{
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDummyName()
     {

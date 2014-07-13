@@ -16,15 +16,13 @@ use SplSubject;
 
 class ErrorPageView extends View{
 
-    private $errorCode;
-
     public function __construct(){ }
 
     /**
      * @param $errCode int
      */
     public function setErrorCode($errCode){
-        $this->errorCode = (int)$errCode;
+        $this->setTemplateName((int)$errCode);
     }
 
     /**
@@ -37,18 +35,6 @@ class ErrorPageView extends View{
      * @return void
      */
     public function update(SplSubject $subject){}
-
-    public function render()
-    {
-        $responseFactory = ResponseFactory::getInstance();
-
-        $responseObj = $responseFactory->getResponseObject( Registry::get('ENV')->get('responseType') );
-
-        if($responseObj instanceof HtmlResponse)
-            $responseObj -> setTemplateName($this->errorCode.".html");
-
-        echo $responseObj->getResponse();
-    }
 
 
 } 

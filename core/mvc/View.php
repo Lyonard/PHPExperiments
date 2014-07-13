@@ -8,6 +8,8 @@
 
 namespace core\mvc;
 
+use core\logic\response\HtmlResponse;
+use core\logic\response\ResponseFactory;
 use core\Registry;
 use SplSubject;
 
@@ -32,7 +34,6 @@ abstract class View implements \SplObserver{
      * @return void
      */
     public abstract function update(SplSubject $subject);
-    public abstract function render();
 
 
     /**
@@ -65,5 +66,20 @@ abstract class View implements \SplObserver{
     public function getTemplateName()
     {
         return $this->templateName;
+    }
+
+    public function render()
+    {
+        $responseFactory = ResponseFactory::getInstance();
+
+        $responseObj = $responseFactory->getResponseObject( Registry::get('ENV')->get('responseType') );
+
+        if($responseObj instanceof HtmlResponse)
+            $responseObj -> setTemplateName($this->getTemplateName().".html");
+
+        if($this->getTemplateVariables() != null && count($this->getTemplateVariables()) > 0)
+            $responseObj -> setData($this->getTemplateVariables());
+
+        echo $responseObj->getResponse();
     }
 } 

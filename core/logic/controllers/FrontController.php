@@ -52,6 +52,7 @@ class FrontController extends Controller{
 
         }
         catch(\Exception $e){
+            var_dump("<pre>", $e);
             $this->goErrorPage(500);
         }
 
