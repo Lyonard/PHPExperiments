@@ -21,10 +21,16 @@ class FrontController extends Controller{
     public function doAction(){
         $nextController = null;
 
+        $firstField = $this->getRequestHead($this->getRequest());
+        $newRequest = $this->getRequestTail($this->getRequest());
+
         try{
             $env = Registry::get('ENV');
             if($this->checkAjax()){
-               $env ->set('ajax',true);
+                $env ->set( 'ajax', true );
+
+                $respType = $this->getRequestHead($newRequest);
+                $env ->set( 'responseType', $respType);
             }
             else{
                 $env->set( 'ajax', false );
@@ -32,11 +38,7 @@ class FrontController extends Controller{
             }
             Registry::set('ENV', $env);
 
-            $firstField = $this->getRequestHead($this->getRequest());
-
             if( $this->routeExists( $firstField ) ){
-
-                $newRequest = $this->getRequestTail($this->getRequest());
 
                 $nextControllerName = $this->getNextControllerName($firstField);
 
@@ -52,7 +54,6 @@ class FrontController extends Controller{
 
         }
         catch(\Exception $e){
-            var_dump("<pre>", $e);
             $this->goErrorPage(500);
         }
 
@@ -119,5 +120,6 @@ class FrontController extends Controller{
         $errorView = new ErrorPageView();
         $errorView->setErrorCode($errorCode);
         $errorView->render();
+        exit;
     }
 } 
