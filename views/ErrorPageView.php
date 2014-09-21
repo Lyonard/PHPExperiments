@@ -22,6 +22,9 @@ class ErrorPageView extends View{
      * @param $errCode int
      */
     public function setErrorCode($errCode){
+
+        http_response_code($errCode);
+
         $this->setTemplateName((int)$errCode);
     }
 

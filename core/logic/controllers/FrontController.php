@@ -8,6 +8,7 @@
 
 namespace core\logic\controllers;
 
+use core\logic\RequestHelper;
 use core\Registry;
 use core\mvc\Controller;
 use views\ErrorPageView;
@@ -25,18 +26,7 @@ class FrontController extends Controller{
         $newRequest = $this->getRequestTail($this->getRequest());
 
         try{
-            $env = Registry::get('ENV');
-            if($this->checkAjax()){
-                $env ->set( 'ajax', true );
-
-                $respType = $this->getRequestHead($newRequest);
-                $env ->set( 'responseType', $respType);
-            }
-            else{
-                $env->set( 'ajax', false );
-                $env->set( 'responseType', 'html' );
-            }
-            Registry::set('ENV', $env);
+            RequestHelper::configureFromRequestHeader();
 
             if( $this->routeExists( $firstField ) ){
 
@@ -59,14 +49,7 @@ class FrontController extends Controller{
 
     }
 
-    /**
-     * Checks if the current request is an Ajax request
-     * @return bool True if the current request is an Ajax request, false otherwise
-     */
-    private function checkAjax(){
-        return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) &&
-            strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
-    }
+
 
     /**
      * @param $route string The prefix of the next controller to be called <br/>
