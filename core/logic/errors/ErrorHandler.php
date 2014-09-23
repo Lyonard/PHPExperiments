@@ -64,3 +64,70 @@ class ErrorHandler {
         exit(1);
     }
 }
+//
+//public static function fatalErrorHandler() {
+//
+//    $errorType = array (
+//        E_CORE_ERROR        => 'E_CORE_ERROR',
+//        E_COMPILE_ERROR     => 'E_COMPILE_ERROR',
+//        E_ERROR             => 'E_ERROR',
+//        E_USER_ERROR        => 'E_USER_ERROR',
+//        E_RECOVERABLE_ERROR => 'E_RECOVERABLE_ERROR',
+//        //E_DEPRECATED        => 'DEPRECATION_NOTICE', //From PHP 5.3
+//    );
+//
+//    # Getting last error
+//    $error = error_get_last();
+//
+//    # Checking if last error is a fatal error
+//    switch ( $error['type'] ){
+//        case E_CORE_ERROR:
+//        case E_COMPILE_ERROR:
+//        case E_ERROR:
+//        case E_USER_ERROR:
+//        case E_RECOVERABLE_ERROR:
+//
+//            ini_set( 'display_errors', 'Off' );
+//
+//            if( !ob_get_level() ){ ob_start(); }
+//            else { ob_end_clean(); ob_start(); }
+//
+//            debug_print_backtrace();
+//            $output = ob_get_contents();
+//            ob_end_clean();
+//
+//            # Here we handle the error, displaying HTML, logging, ...
+//            $output .= "<pre>\n";
+//            $output .= "[ {$errorType[$error['type']]} ]\n\t";
+//            $output .= "{$error['message']}\n\t";
+//            $output .=  "Not Recoverable Error on line {$error['line']} in file " . $error['file'];
+//            $output .=  " - PHP " . PHP_VERSION . " (" . PHP_OS . ")\n";
+//            $output .=  " - REQUEST URI: " . print_r( @$_SERVER['REQUEST_URI'], true ) . "\n";
+//            $output .=  " - REQUEST Message: " . print_r( $_REQUEST, true ) . "\n";
+//            $output .=  "\n\t";
+//            $output .=  "Aborting...\n";
+//            $output .= "</pre>";
+//
+//            Log::$fileName = 'fatal_errors.txt';
+//            Log::doLog( $output );
+//            Utils::sendErrMailReport( $output );
+//
+//            header( "HTTP/1.1 200 OK" );
+//
+//            if( ( isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' ) || $_SERVER['REQUEST_METHOD'] == 'POST' ) {
+//
+//                //json_response
+//                if( INIT::$DEBUG ){
+//                    echo json_encode( array("errors" => array( array( "code" => -1000, "message" => $output ) ), "data" => array() ) );
+//                } else {
+//                    echo json_encode( array("errors" => array( array( "code" => -1000, "message" => "Oops we got an Error. Contact <a href='mailto:support@matecat.com'>support@matecat.com</a>" ) ), "data" => array() ) ) ;
+//                }
+//
+//            } elseif( INIT::$DEBUG ){
+//                echo $output;
+//            }
+//
+//            break;
+//    }
+//
+//}

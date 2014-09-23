@@ -36,7 +36,7 @@ class RequestHelper {
      * Checks if the current request is an Ajax request
      * @return bool True if the current request is an Ajax request, false otherwise
      */
-    private function checkAjax() {
+    private static function checkAjax() {
         return ( isset( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) && strtolower( $_SERVER[ 'HTTP_X_REQUESTED_WITH' ] ) === 'xmlhttprequest' );
     }
 
@@ -44,7 +44,7 @@ class RequestHelper {
      * Reads the HTTP header's "Accept" parameter and gets the first available mime type.
      * @return string An internal string representing the response type.
      */
-    private function getResponseType() {
+    private static function getResponseType() {
         preg_match_all( "#([^/]*/[^,;]*|\*/\*)[,;]?(q=[0-9\.]{3})?,?#", $_SERVER[ 'HTTP_ACCEPT' ], $responseTypes );
 
         $responseTypes = $responseTypes[ 1 ];
